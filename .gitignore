@@ -1,8 +1,4 @@
 .vs
 packages
-ServiceStackApp/ServiceStackApp.ServiceInterface/obj/Debug
-ServiceStackApp/ServiceStackApp.ServiceModel/obj/Debug
-ServiceStackApp/ServiceStackApp.Tests/bin/Debug
-ServiceStackApp/ServiceStackApp.Tests/obj/Debug
-ServiceStackApp/ServiceStackApp/bin
-ServiceStackApp/ServiceStackApp/obj/Debug
+obj
+bin

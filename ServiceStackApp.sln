@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26430.13
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30002.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStackApp", "ServiceStackApp\ServiceStackApp\ServiceStackApp.csproj", "{4389B305-B381-4B50-B1A8-BBB5259A0524}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStackApp.ServiceInterface", "ServiceStackApp\ServiceStackApp.ServiceInterface\ServiceStackApp.ServiceInterface.csproj", "{801A0F89-D5F6-49A6-BCEA-6624388C98A4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStackApp.Tests", "ServiceStackApp\ServiceStackApp.Tests\ServiceStackApp.Tests.csproj", "{D22B5797-9F2A-4BA7-9636-6EFCE62EBE00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{D22B5797-9F2A-4BA7-9636-6EFCE62EBE00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D22B5797-9F2A-4BA7-9636-6EFCE62EBE00}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D22B5797-9F2A-4BA7-9636-6EFCE62EBE00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {734D5997-EAEE-46CB-A9BC-2C20F88BF21E}
 	EndGlobalSection
 EndGlobal
