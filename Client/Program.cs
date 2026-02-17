@@ -1,30 +1,32 @@
-﻿using Newtonsoft.Json;
+using System.Text.Json;
 using RestSharp;
-using System;
 
-namespace Client
+var client = new RestClient("https://jsonplaceholder.typicode.com");
+var request = new RestRequest("todos/1");
+var response = await client.GetAsync(request);
+
+if (response?.Content is null)
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var client = new RestClient("https://jsonplaceholder.typicode.com");
-            var request = new RestRequest("todos/1");
-            var response = client.Get(request);
-            var todo = JsonConvert.DeserializeObject<Todo>(response.Content);
-            Console.WriteLine($"UserId: {todo.UserId}");
-            Console.WriteLine($"Id: {todo.Id}");
-            Console.WriteLine($"Title: {todo.Title}");
-            Console.WriteLine($"Completed: {todo.Completed}");
-            Console.ReadKey();
-        }
-    }
+    Console.WriteLine("No response content was returned.");
+    return;
+}
 
-    class Todo
-    { 
-        public int UserId { get; set; }
-        public int Id { get; set; }
-        public string Title { get; set; }
-        public bool Completed { get; set; }
-    }
+var todo = JsonSerializer.Deserialize<Todo>(response.Content);
+if (todo is null)
+{
+    Console.WriteLine("Unable to deserialize response.");
+    return;
+}
+
+Console.WriteLine($"UserId: {todo.UserId}");
+Console.WriteLine($"Id: {todo.Id}");
+Console.WriteLine($"Title: {todo.Title}");
+Console.WriteLine($"Completed: {todo.Completed}");
+
+internal sealed class Todo
+{
+    public int UserId { get; init; }
+    public int Id { get; init; }
+    public string Title { get; init; } = string.Empty;
+    public bool Completed { get; init; }
 }
