@@ -1,32 +1,34 @@
-using System.Text.Json;
-using RestSharp;
+using KafkaFlow;
+using KafkaFlow.Producers;
+using KafkaFlow.Serializer;
+using Microsoft.Extensions.DependencyInjection;
+using ServiceStackApp.ServiceModel;
 
-var client = new RestClient("https://jsonplaceholder.typicode.com");
-var request = new RestRequest("todos/1");
-var response = await client.GetAsync(request);
+const string topicName = "sample-topic";
+const string producerName = "say-hello";
 
-if (response?.Content is null)
-{
-    Console.WriteLine("No response content was returned.");
-    return;
-}
+var services = new ServiceCollection();
 
-var todo = JsonSerializer.Deserialize<Todo>(response.Content);
-if (todo is null)
-{
-    Console.WriteLine("Unable to deserialize response.");
-    return;
-}
+services.AddKafka(kafka => kafka
+    .UseConsoleLog()
+    .AddCluster(cluster => cluster
+        .WithBrokers(new[] { "localhost:9092" })
+        .CreateTopicIfNotExists(topicName, 1, 1)
+        .AddProducer(
+            producerName,
+            producer => producer
+                .DefaultTopic(topicName)
+                .AddMiddlewares(m => m.AddSerializer<JsonCoreSerializer>()))));
 
-Console.WriteLine($"UserId: {todo.UserId}");
-Console.WriteLine($"Id: {todo.Id}");
-Console.WriteLine($"Title: {todo.Title}");
-Console.WriteLine($"Completed: {todo.Completed}");
+var serviceProvider = services.BuildServiceProvider();
 
-internal sealed class Todo
-{
-    public int UserId { get; init; }
-    public int Id { get; init; }
-    public string Title { get; init; } = string.Empty;
-    public bool Completed { get; init; }
-}
+var producer = serviceProvider
+    .GetRequiredService<IProducerAccessor>()
+    .GetProducer(producerName);
+
+await producer.ProduceAsync(
+    topicName,
+    Guid.NewGuid().ToString(),
+    new HelloMessage { Text = "Hello from KafkaFlow producer" });
+
+Console.WriteLine("Message sent.");
