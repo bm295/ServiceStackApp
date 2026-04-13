@@ -31,6 +31,21 @@ The app demonstrates support for topics with different message types:
 - `hello-topic` consumes `HelloMessage` with `HelloMessageHandler`
 - `orders-topic` consumes `OrderCreatedMessage` with `OrderCreatedMessageHandler`
 
+## Middleware pipeline, DI, and lifetime control
+
+Both producer and consumers define middleware pipelines with explicit order:
+
+- Producer pipeline: `ProducerLoggingMiddleware` -> `JsonCoreSerializer`
+- Consumer pipeline: `ConsumerLoggingMiddleware` -> `JsonCoreDeserializer` -> typed handlers
+
+Custom middleware classes are created through `Microsoft.Extensions.DependencyInjection` and use constructor
+injection (`MiddlewareInstanceTracker`) to demonstrate DI-driven middleware activation.
+
+The middleware is registered using the lifetime overload:
+
+- `.Add<ProducerLoggingMiddleware>(MiddlewareLifetime.Singleton)`
+- `.Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)`
+
 ## Consumer concurrency and ordering
 
 Each consumer uses KafkaFlow worker parallelism and `PartitionKeyDistributionStrategy` so messages from the
