@@ -2,13 +2,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStackApp", "ServiceStackApp\ServiceStackApp\ServiceStackApp.csproj", "{4389B305-B381-4B50-B1A8-BBB5259A0524}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "src\Consumer\Consumer.csproj", "{4389B305-B381-4B50-B1A8-BBB5259A0524}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStackApp.ServiceModel", "ServiceStackApp\ServiceStackApp.ServiceModel\ServiceStackApp.ServiceModel.csproj", "{53E82AC1-DD1D-4C66-B55F-F9F4ACFB2F40}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "src\Contracts\Contracts.csproj", "{53E82AC1-DD1D-4C66-B55F-F9F4ACFB2F40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStackApp.Tests", "ServiceStackApp\ServiceStackApp.Tests\ServiceStackApp.Tests.csproj", "{D22B5797-9F2A-4BA7-9636-6EFCE62EBE00}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer.Tests", "tests\Consumer.Tests\Consumer.Tests.csproj", "{D22B5797-9F2A-4BA7-9636-6EFCE62EBE00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Client", "Client\Client.csproj", "{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Producer", "src\Producer\Producer.csproj", "{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,13 +1,13 @@
 # KafkaFlow sample app (.NET 10)
 
-This repository was rewritten to use [KafkaFlow](https://farfetch.github.io/kafkaflow/) instead of ServiceStack.
+This repository uses [KafkaFlow](https://farfetch.github.io/kafkaflow/) with a clearer producer/consumer-first folder layout.
 
-## Projects
+## Project structure
 
-- `ServiceStackApp/ServiceStackApp`: KafkaFlow **consumer** console app
-- `Client`: KafkaFlow **producer** console app
-- `ServiceStackApp/ServiceStackApp.ServiceModel`: shared message contract (`HelloMessage`)
-- `ServiceStackApp/ServiceStackApp.Tests`: NUnit tests for local formatting logic used by the consumer
+- `src/Producer`: KafkaFlow **producer** console app
+- `src/Consumer`: KafkaFlow **consumer** console app
+- `src/Contracts`: shared message contract (`HelloMessage`)
+- `tests/Consumer.Tests`: NUnit tests for consumer formatting logic
 
 ## Prerequisites
 
@@ -20,10 +20,10 @@ This repository was rewritten to use [KafkaFlow](https://farfetch.github.io/kafk
 dotnet restore
 
 # terminal 1: run consumer
-dotnet run --project ServiceStackApp/ServiceStackApp/ServiceStackApp.csproj
+dotnet run --project src/Consumer/Consumer.csproj
 
 # terminal 2: send one message
-dotnet run --project Client/Client.csproj
+dotnet run --project src/Producer/Producer.csproj
 ```
 
 The consumer subscribes to `sample-topic` with group id `sample-group`, and the producer sends a single `HelloMessage`.
