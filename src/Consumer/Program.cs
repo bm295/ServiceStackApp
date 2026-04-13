@@ -1,4 +1,5 @@
 using KafkaFlow;
+using KafkaFlow.Configuration;
 using KafkaFlow.Serializer;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStackApp;
@@ -11,12 +12,13 @@ services.AddKafka(kafka => kafka
     .UseConsoleLog()
     .AddCluster(cluster => cluster
         .WithBrokers(new[] { "localhost:9092" })
-        .CreateTopicIfNotExists(topicName, 1, 1)
+        .CreateTopicIfNotExists(topicName, 4, 1)
         .AddConsumer(consumer => consumer
             .Topic(topicName)
             .WithGroupId("sample-group")
             .WithBufferSize(100)
-            .WithWorkersCount(10)
+            .WithWorkersCount(4)
+            .WithWorkDistributionStrategy<PartitionKeyDistributionStrategy>()
             .AddMiddlewares(middlewares => middlewares
                 .AddDeserializer<JsonCoreDeserializer>()
                 .AddTypedHandlers(handlers => handlers
