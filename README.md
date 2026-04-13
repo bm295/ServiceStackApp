@@ -27,3 +27,9 @@ dotnet run --project src/Producer/Producer.csproj
 ```
 
 The consumer subscribes to `sample-topic` with group id `sample-group`, and the producer sends a single `HelloMessage`.
+
+## Consumer concurrency and ordering
+
+The consumer uses KafkaFlow worker parallelism and `PartitionKeyDistributionStrategy` so messages from the
+same Kafka partition are always routed to the same worker (preserving partition order), while different
+partitions are processed in parallel.
