@@ -4,8 +4,9 @@ using KafkaFlow.Serializer;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStackApp.ServiceModel;
 
-const string topicName = "sample-topic";
-const string producerName = "say-hello";
+const string helloTopicName = "hello-topic";
+const string ordersTopicName = "orders-topic";
+const string producerName = "sample-producer";
 
 var services = new ServiceCollection();
 
@@ -13,11 +14,12 @@ services.AddKafka(kafka => kafka
     .UseConsoleLog()
     .AddCluster(cluster => cluster
         .WithBrokers(new[] { "localhost:9092" })
-        .CreateTopicIfNotExists(topicName, 4, 1)
+        .CreateTopicIfNotExists(helloTopicName, 4, 1)
+        .CreateTopicIfNotExists(ordersTopicName, 4, 1)
         .AddProducer(
             producerName,
             producer => producer
-                .DefaultTopic(topicName)
+                .DefaultTopic(helloTopicName)
                 .AddMiddlewares(m => m.AddSerializer<JsonCoreSerializer>()))));
 
 var serviceProvider = services.BuildServiceProvider();
@@ -27,8 +29,17 @@ var producer = serviceProvider
     .GetProducer(producerName);
 
 await producer.ProduceAsync(
-    topicName,
+    helloTopicName,
     Guid.NewGuid().ToString(),
     new HelloMessage { Text = "Hello from KafkaFlow producer" });
 
-Console.WriteLine("Message sent.");
+await producer.ProduceAsync(
+    ordersTopicName,
+    Guid.NewGuid().ToString(),
+    new OrderCreatedMessage
+    {
+        OrderId = Guid.NewGuid().ToString("N"),
+        Total = 149.99m
+    });
+
+Console.WriteLine("Messages sent to hello-topic and orders-topic.");
