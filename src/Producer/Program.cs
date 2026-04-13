@@ -9,6 +9,7 @@ const string ordersTopicName = "orders-topic";
 const string producerName = "sample-producer";
 
 var services = new ServiceCollection();
+services.AddSingleton<MiddlewareInstanceTracker>();
 
 services.AddKafka(kafka => kafka
     .UseConsoleLog()
@@ -20,7 +21,9 @@ services.AddKafka(kafka => kafka
             producerName,
             producer => producer
                 .DefaultTopic(helloTopicName)
-                .AddMiddlewares(m => m.AddSerializer<JsonCoreSerializer>()))));
+                .AddMiddlewares(m => m
+                    .Add<ProducerLoggingMiddleware>(MiddlewareLifetime.Singleton)
+                    .AddSerializer<JsonCoreSerializer>()))));
 
 var serviceProvider = services.BuildServiceProvider();
 

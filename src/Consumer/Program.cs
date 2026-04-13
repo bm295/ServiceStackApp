@@ -8,6 +8,7 @@ const string helloTopicName = "hello-topic";
 const string ordersTopicName = "orders-topic";
 
 var services = new ServiceCollection();
+services.AddSingleton<MiddlewareInstanceTracker>();
 
 services.AddKafka(kafka => kafka
     .UseConsoleLog()
@@ -22,6 +23,7 @@ services.AddKafka(kafka => kafka
             .WithWorkersCount(4)
             .WithWorkDistributionStrategy<PartitionKeyDistributionStrategy>()
             .AddMiddlewares(middlewares => middlewares
+                .Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)
                 .AddDeserializer<JsonCoreDeserializer>()
                 .AddTypedHandlers(handlers => handlers
                     .AddHandler<HelloMessageHandler>())))
@@ -32,6 +34,7 @@ services.AddKafka(kafka => kafka
             .WithWorkersCount(4)
             .WithWorkDistributionStrategy<PartitionKeyDistributionStrategy>()
             .AddMiddlewares(middlewares => middlewares
+                .Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)
                 .AddDeserializer<JsonCoreDeserializer>()
                 .AddTypedHandlers(handlers => handlers
                     .AddHandler<OrderCreatedMessageHandler>())))));
