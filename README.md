@@ -6,7 +6,7 @@ This repository uses [KafkaFlow](https://farfetch.github.io/kafkaflow/) with a c
 
 - `src/Producer`: KafkaFlow **producer** console app
 - `src/Consumer`: KafkaFlow **consumer** console app
-- `src/Contracts`: shared message contract (`HelloMessage`)
+- `src/Contracts`: shared message contracts (`HelloMessage`, `OrderCreatedMessage`)
 - `tests/Consumer.Tests`: NUnit tests for consumer formatting logic
 
 ## Prerequisites
@@ -19,17 +19,20 @@ This repository uses [KafkaFlow](https://farfetch.github.io/kafkaflow/) with a c
 ```bash
 dotnet restore
 
-# terminal 1: run consumer
+# terminal 1: run consumers
 dotnet run --project src/Consumer/Consumer.csproj
 
-# terminal 2: send one message
+# terminal 2: send messages
 dotnet run --project src/Producer/Producer.csproj
 ```
 
-The consumer subscribes to `sample-topic` with group id `sample-group`, and the producer sends a single `HelloMessage`.
+The app demonstrates support for topics with different message types:
+
+- `hello-topic` consumes `HelloMessage` with `HelloMessageHandler`
+- `orders-topic` consumes `OrderCreatedMessage` with `OrderCreatedMessageHandler`
 
 ## Consumer concurrency and ordering
 
-The consumer uses KafkaFlow worker parallelism and `PartitionKeyDistributionStrategy` so messages from the
+Each consumer uses KafkaFlow worker parallelism and `PartitionKeyDistributionStrategy` so messages from the
 same Kafka partition are always routed to the same worker (preserving partition order), while different
 partitions are processed in parallel.
