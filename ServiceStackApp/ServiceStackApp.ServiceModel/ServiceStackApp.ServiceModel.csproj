@@ -5,8 +5,4 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <LangVersion>preview</LangVersion>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="ServiceStack.Interfaces" Version="8.*" />
-  </ItemGroup>
 </Project>

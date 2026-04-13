@@ -11,12 +11,9 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.*" />
     <PackageReference Include="NUnit" Version="4.*" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.*" />
-    <PackageReference Include="ServiceStack" Version="8.*" />
-    <PackageReference Include="ServiceStack.Testing" Version="8.*" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ServiceStackApp.ServiceInterface\ServiceStackApp.ServiceInterface.csproj" />
-    <ProjectReference Include="..\ServiceStackApp.ServiceModel\ServiceStackApp.ServiceModel.csproj" />
+    <ProjectReference Include="..\ServiceStackApp\ServiceStackApp.csproj" />
   </ItemGroup>
 </Project>

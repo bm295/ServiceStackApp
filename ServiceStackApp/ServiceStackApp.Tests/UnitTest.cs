@@ -1,31 +1,15 @@
 using NUnit.Framework;
-using ServiceStack;
-using ServiceStack.Testing;
-using ServiceStackApp.ServiceInterface;
-using ServiceStackApp.ServiceModel;
+using ServiceStackApp;
 
 namespace ServiceStackApp.Tests;
 
 public class UnitTest
 {
-    private readonly ServiceStackHost appHost;
-
-    public UnitTest()
-    {
-        appHost = new BasicAppHost().Init();
-        appHost.Container.AddTransient<MyServices>();
-    }
-
-    [OneTimeTearDown]
-    public void OneTimeTearDown() => appHost.Dispose();
-
     [Test]
-    public void Can_call_MyServices()
+    public void MessageFormatter_formats_consumer_log_output()
     {
-        var service = appHost.Container.Resolve<MyServices>();
+        var formatted = MessageFormatter.Format(2, 42, "Hello from tests");
 
-        var response = (HelloResponse)service.Any(new Hello { Name = "World" });
-
-        Assert.That(response.Result, Is.EqualTo("Hello, World!"));
+        Assert.That(formatted, Is.EqualTo("Partition: 2 | Offset: 42 | Message: Hello from tests"));
     }
 }
