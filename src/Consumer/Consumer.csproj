@@ -16,6 +16,7 @@
     <PackageReference Include="KafkaFlow.Compressor.Gzip" Version="3.*" />
     <PackageReference Include="KafkaFlow.LogHandler.Console" Version="3.*" />
     <PackageReference Include="KafkaFlow.Microsoft.DependencyInjection" Version="3.*" />
+    <PackageReference Include="KafkaFlow.Retry" Version="1.*" />
     <PackageReference Include="KafkaFlow.Serializer.JsonCore" Version="3.*" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.*" />
   </ItemGroup>

@@ -36,7 +36,7 @@ The app demonstrates support for topics with different message types:
 Both producer and consumers define middleware pipelines with explicit order:
 
 - Producer pipeline: `ProducerLoggingMiddleware` -> `GzipMessageCompressor` -> `JsonCoreSerializer`
-- Consumer pipeline: `ConsumerLoggingMiddleware` -> `GzipMessageDecompressor` -> `JsonCoreDeserializer` -> typed handlers
+- Consumer pipeline: `RetrySimple` -> `ConsumerLoggingMiddleware` -> `GzipMessageDecompressor` -> `JsonCoreDeserializer` -> typed handlers
 
 Custom middleware classes are created through `Microsoft.Extensions.DependencyInjection` and use constructor
 injection (`MiddlewareInstanceTracker`) to demonstrate DI-driven middleware activation.
@@ -45,6 +45,8 @@ The middleware is registered using the lifetime overload:
 
 - `.Add<ProducerLoggingMiddleware>(MiddlewareLifetime.Singleton)`
 - `.Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)`
+
+Consumer exception handling uses `KafkaFlow.Retry` middleware with `RetrySimple(...).HandleAnyException()`.
 
 ## Consumer concurrency and ordering
 
