@@ -1,4 +1,5 @@
 using KafkaFlow;
+using KafkaFlow.Compressor.Gzip;
 using KafkaFlow.Producers;
 using KafkaFlow.Serializer;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,6 +24,7 @@ services.AddKafka(kafka => kafka
                 .DefaultTopic(helloTopicName)
                 .AddMiddlewares(m => m
                     .Add<ProducerLoggingMiddleware>(MiddlewareLifetime.Singleton)
+                    .AddCompressor<GzipMessageCompressor>()
                     .AddSerializer<JsonCoreSerializer>()))));
 
 var serviceProvider = services.BuildServiceProvider();

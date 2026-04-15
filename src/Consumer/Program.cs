@@ -1,4 +1,5 @@
 using KafkaFlow;
+using KafkaFlow.Compressor.Gzip;
 using KafkaFlow.Configuration;
 using KafkaFlow.Serializer;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ services.AddKafka(kafka => kafka
             .WithWorkDistributionStrategy<PartitionKeyDistributionStrategy>()
             .AddMiddlewares(middlewares => middlewares
                 .Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)
+                .AddDecompressor<GzipMessageDecompressor>()
                 .AddDeserializer<JsonCoreDeserializer>()
                 .AddTypedHandlers(handlers => handlers
                     .AddHandler<HelloMessageHandler>())))
@@ -35,6 +37,7 @@ services.AddKafka(kafka => kafka
             .WithWorkDistributionStrategy<PartitionKeyDistributionStrategy>()
             .AddMiddlewares(middlewares => middlewares
                 .Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)
+                .AddDecompressor<GzipMessageDecompressor>()
                 .AddDeserializer<JsonCoreDeserializer>()
                 .AddTypedHandlers(handlers => handlers
                     .AddHandler<OrderCreatedMessageHandler>())))));

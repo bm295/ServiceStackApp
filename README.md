@@ -35,8 +35,8 @@ The app demonstrates support for topics with different message types:
 
 Both producer and consumers define middleware pipelines with explicit order:
 
-- Producer pipeline: `ProducerLoggingMiddleware` -> `JsonCoreSerializer`
-- Consumer pipeline: `ConsumerLoggingMiddleware` -> `JsonCoreDeserializer` -> typed handlers
+- Producer pipeline: `ProducerLoggingMiddleware` -> `GzipMessageCompressor` -> `JsonCoreSerializer`
+- Consumer pipeline: `ConsumerLoggingMiddleware` -> `GzipMessageDecompressor` -> `JsonCoreDeserializer` -> typed handlers
 
 Custom middleware classes are created through `Microsoft.Extensions.DependencyInjection` and use constructor
 injection (`MiddlewareInstanceTracker`) to demonstrate DI-driven middleware activation.
