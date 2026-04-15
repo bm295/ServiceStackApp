@@ -1,6 +1,7 @@
 using KafkaFlow;
 using KafkaFlow.Compressor.Gzip;
 using KafkaFlow.Configuration;
+using KafkaFlow.Retry;
 using KafkaFlow.Serializer;
 using Microsoft.Extensions.DependencyInjection;
 using ServiceStackApp;
@@ -24,6 +25,10 @@ services.AddKafka(kafka => kafka
             .WithWorkersCount(4)
             .WithWorkDistributionStrategy<PartitionKeyDistributionStrategy>()
             .AddMiddlewares(middlewares => middlewares
+                .RetrySimple(config => config
+                    .HandleAnyException()
+                    .TryTimes(3)
+                    .WithTimeBetweenTriesPlan(retryCount => TimeSpan.FromMilliseconds(Math.Pow(2, retryCount) * 100)))
                 .Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)
                 .AddDecompressor<GzipMessageDecompressor>()
                 .AddDeserializer<JsonCoreDeserializer>()
@@ -36,6 +41,10 @@ services.AddKafka(kafka => kafka
             .WithWorkersCount(4)
             .WithWorkDistributionStrategy<PartitionKeyDistributionStrategy>()
             .AddMiddlewares(middlewares => middlewares
+                .RetrySimple(config => config
+                    .HandleAnyException()
+                    .TryTimes(3)
+                    .WithTimeBetweenTriesPlan(retryCount => TimeSpan.FromMilliseconds(Math.Pow(2, retryCount) * 100)))
                 .Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)
                 .AddDecompressor<GzipMessageDecompressor>()
                 .AddDeserializer<JsonCoreDeserializer>()
