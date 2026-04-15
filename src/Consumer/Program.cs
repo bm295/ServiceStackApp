@@ -8,6 +8,11 @@ using ServiceStackApp;
 
 const string helloTopicName = "hello-topic";
 const string ordersTopicName = "orders-topic";
+const int retryAttempts = 5;
+const int retryBaseDelayMs = 200;
+
+static TimeSpan RetryBackoff(int retryCount) =>
+    TimeSpan.FromMilliseconds(Math.Pow(2, retryCount) * retryBaseDelayMs);
 
 var services = new ServiceCollection();
 services.AddSingleton<MiddlewareInstanceTracker>();
@@ -27,8 +32,8 @@ services.AddKafka(kafka => kafka
             .AddMiddlewares(middlewares => middlewares
                 .RetrySimple(config => config
                     .HandleAnyException()
-                    .TryTimes(3)
-                    .WithTimeBetweenTriesPlan(retryCount => TimeSpan.FromMilliseconds(Math.Pow(2, retryCount) * 100)))
+                    .TryTimes(retryAttempts)
+                    .WithTimeBetweenTriesPlan(RetryBackoff))
                 .Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)
                 .AddDecompressor<GzipMessageDecompressor>()
                 .AddDeserializer<JsonCoreDeserializer>()
@@ -43,8 +48,8 @@ services.AddKafka(kafka => kafka
             .AddMiddlewares(middlewares => middlewares
                 .RetrySimple(config => config
                     .HandleAnyException()
-                    .TryTimes(3)
-                    .WithTimeBetweenTriesPlan(retryCount => TimeSpan.FromMilliseconds(Math.Pow(2, retryCount) * 100)))
+                    .TryTimes(retryAttempts)
+                    .WithTimeBetweenTriesPlan(RetryBackoff))
                 .Add<ConsumerLoggingMiddleware>(MiddlewareLifetime.Singleton)
                 .AddDecompressor<GzipMessageDecompressor>()
                 .AddDeserializer<JsonCoreDeserializer>()

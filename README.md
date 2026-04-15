@@ -48,6 +48,10 @@ The middleware is registered using the lifetime overload:
 
 Consumer exception handling uses `KafkaFlow.Retry` middleware with `RetrySimple(...).HandleAnyException()`.
 
+> Note: this sample demonstrates the built-in `KafkaFlow.Retry` package. It does **not** include
+> [KafkaFlow Retry Extensions](https://github.com/Farfetch/kafkaflow-retry-extensions) configuration
+> such as delayed topics or dead-letter topic routing.
+
 ## Consumer concurrency and ordering
 
 Each consumer uses KafkaFlow worker parallelism and `PartitionKeyDistributionStrategy` so messages from the
