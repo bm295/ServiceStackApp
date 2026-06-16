@@ -7,7 +7,9 @@ This repository uses [KafkaFlow](https://farfetch.github.io/kafkaflow/) with a c
 - `src/Producer`: KafkaFlow **producer** console app
 - `src/Consumer`: KafkaFlow **consumer** console app
 - `src/Contracts`: shared message contracts (`HelloMessage`, `OrderCreatedMessage`)
+- `src/DbEncryption`: shared Microsoft Data Protection helpers for protecting patient identifiable information before persistence
 - `tests/Consumer.Tests`: NUnit tests for consumer formatting logic
+- `tests/ServiceStackApp.Tests`: NUnit tests for patient identifiable information encryption
 
 ## Prerequisites
 
@@ -57,3 +59,7 @@ Consumer exception handling uses `KafkaFlow.Retry` middleware with `RetrySimple(
 Each consumer uses KafkaFlow worker parallelism and `PartitionKeyDistributionStrategy` so messages from the
 same Kafka partition are always routed to the same worker (preserving partition order), while different
 partitions are processed in parallel.
+
+## DB encryption helpers
+
+The `DbEncryption` class library provides a patient identifiable information encryption service backed by the Microsoft Data Protection API. Store each protected payload and purpose together so protected patient fields can be unprotected after retrieval. Configure Data Protection key persistence for the deployment environment so application instances can share and rotate keys safely.

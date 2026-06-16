@@ -10,6 +10,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer.Tests", "tests\Con
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Producer", "src\Producer\Producer.csproj", "{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbEncryption", "src\DbEncryption\DbEncryption.csproj", "{9C3353A3-8D1E-4A18-A57B-2F05D4EC3B1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStackApp.Tests", "tests\ServiceStackApp.Tests\ServiceStackApp.Tests.csproj", "{1B51B29D-0EAD-486F-82F1-21631A7EC4D6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,6 +36,14 @@ Global
 		{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62ADD6CF-EB0B-4D5D-99BB-04FB02748D82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C3353A3-8D1E-4A18-A57B-2F05D4EC3B1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C3353A3-8D1E-4A18-A57B-2F05D4EC3B1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C3353A3-8D1E-4A18-A57B-2F05D4EC3B1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C3353A3-8D1E-4A18-A57B-2F05D4EC3B1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B51B29D-0EAD-486F-82F1-21631A7EC4D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B51B29D-0EAD-486F-82F1-21631A7EC4D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B51B29D-0EAD-486F-82F1-21631A7EC4D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B51B29D-0EAD-486F-82F1-21631A7EC4D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
