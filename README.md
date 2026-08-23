@@ -63,3 +63,11 @@ partitions are processed in parallel.
 ## DB encryption helpers
 
 The `DbEncryption` class library provides a patient identifiable information encryption service backed by the Microsoft Data Protection API. Store each protected payload and purpose together so protected patient fields can be unprotected after retrieval. Configure Data Protection key persistence for the deployment environment so application instances can share and rotate keys safely.
+
+Its folders follow an inward dependency direction:
+
+- `Domain` contains the plain and encrypted value models.
+- `Application` defines encryption ports and patient-field protection policy; it does not reference the Data Protection adapter.
+- `Infrastructure` implements the database encryption port with Microsoft Data Protection and depends on the application contract.
+
+The stable database-purpose prefix is owned by the application boundary and shared with the infrastructure adapter. This keeps persisted purpose values compatible without making application policy depend on a concrete encryption technology.
