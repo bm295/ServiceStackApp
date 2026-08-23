@@ -55,6 +55,26 @@ public sealed class PatientIdentifiableInformationEncryptionServiceTests
     }
 
     [Test]
+    public void Encrypt_requests_the_established_database_purpose_for_each_field()
+    {
+        var encryptionService = new RecordingDbEncryptionService();
+        var service = new PatientIdentifiableInformationEncryptionService(encryptionService);
+
+        service.Encrypt(CreatePatientInformation());
+
+        Assert.That(encryptionService.RequestedPurposes, Is.EqualTo(new[]
+        {
+            "ServiceStackApp.DbEncryption.DatabaseValue.PatientIdentifiableInformation.patient-123.FirstName",
+            "ServiceStackApp.DbEncryption.DatabaseValue.PatientIdentifiableInformation.patient-123.LastName",
+            "ServiceStackApp.DbEncryption.DatabaseValue.PatientIdentifiableInformation.patient-123.DateOfBirth",
+            "ServiceStackApp.DbEncryption.DatabaseValue.PatientIdentifiableInformation.patient-123.MedicalRecordNumber",
+            "ServiceStackApp.DbEncryption.DatabaseValue.PatientIdentifiableInformation.patient-123.EmailAddress",
+            "ServiceStackApp.DbEncryption.DatabaseValue.PatientIdentifiableInformation.patient-123.PhoneNumber",
+            "ServiceStackApp.DbEncryption.DatabaseValue.PatientIdentifiableInformation.patient-123.StreetAddress",
+        }));
+    }
+
+    [Test]
     public void Encrypt_omits_optional_empty_patient_identifiable_information_fields()
     {
         var service = CreateService();
@@ -72,6 +92,46 @@ public sealed class PatientIdentifiableInformationEncryptionServiceTests
         Assert.That(encrypted.PhoneNumber, Is.Null);
         Assert.That(encrypted.StreetAddress, Is.Null);
         Assert.That(decrypted, Is.EqualTo(patientInformation));
+    }
+
+    [Test]
+    public void Decrypt_rejects_a_field_from_a_different_patient_before_using_the_encryption_adapter()
+    {
+        var encryptionService = new RecordingDbEncryptionService();
+        var service = new PatientIdentifiableInformationEncryptionService(encryptionService);
+        var encrypted = service.Encrypt(CreatePatientInformation());
+        var recordWithMismatchedOwner = encrypted with { PatientId = "patient-456" };
+
+        var exception = Assert.Throws<ArgumentException>(() => service.Decrypt(recordWithMismatchedOwner));
+
+        Assert.That(exception!.Message, Does.Contain("unexpected purpose"));
+        Assert.That(encryptionService.DecryptCallCount, Is.Zero);
+    }
+
+    [Test]
+    public void Encrypt_rejects_missing_identity_before_using_the_encryption_adapter()
+    {
+        var encryptionService = new RecordingDbEncryptionService();
+        var service = new PatientIdentifiableInformationEncryptionService(encryptionService);
+        var patientInformation = CreatePatientInformation() with { PatientId = " " };
+
+        var exception = Assert.Throws<ArgumentException>(() => service.Encrypt(patientInformation));
+
+        Assert.That(exception!.ParamName, Is.EqualTo("patientInformation"));
+        Assert.That(encryptionService.RequestedPurposes, Is.Empty);
+    }
+
+    [Test]
+    public void Encrypt_validates_all_required_fields_before_using_the_encryption_adapter()
+    {
+        var encryptionService = new RecordingDbEncryptionService();
+        var service = new PatientIdentifiableInformationEncryptionService(encryptionService);
+        var patientInformation = CreatePatientInformation() with { LastName = string.Empty };
+
+        var exception = Assert.Throws<ArgumentException>(() => service.Encrypt(patientInformation));
+
+        Assert.That(exception!.Message, Does.Contain("LastName"));
+        Assert.That(encryptionService.RequestedPurposes, Is.Empty);
     }
 
     private static PatientIdentifiableInformationEncryptionService CreateService()
@@ -93,5 +153,23 @@ public sealed class PatientIdentifiableInformationEncryptionServiceTests
             "ada@example.test",
             "+1-555-0100",
             "123 Example Street");
+    }
+
+    private sealed class RecordingDbEncryptionService : IDbEncryptionService
+    {
+        public List<string?> RequestedPurposes { get; } = new();
+        public int DecryptCallCount { get; private set; }
+
+        public EncryptedValue Encrypt(ReadOnlySpan<byte> plainText, string? purpose = null)
+        {
+            RequestedPurposes.Add(purpose);
+            return new EncryptedValue(plainText.ToArray(), purpose!);
+        }
+
+        public byte[] Decrypt(EncryptedValue encryptedValue)
+        {
+            DecryptCallCount++;
+            return encryptedValue.ProtectedData;
+        }
     }
 }
