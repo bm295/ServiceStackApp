@@ -14,6 +14,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DbEncryption", "src\DbEncry
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceStackApp.Tests", "tests\ServiceStackApp.Tests\ServiceStackApp.Tests.csproj", "{1B51B29D-0EAD-486F-82F1-21631A7EC4D6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WolverinePlayground", "src\WolverinePlayground\WolverinePlayground.csproj", "{B2FD7026-3154-40E5-9194-FAE1173C4AAA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +46,10 @@ Global
 		{1B51B29D-0EAD-486F-82F1-21631A7EC4D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B51B29D-0EAD-486F-82F1-21631A7EC4D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B51B29D-0EAD-486F-82F1-21631A7EC4D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2FD7026-3154-40E5-9194-FAE1173C4AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2FD7026-3154-40E5-9194-FAE1173C4AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2FD7026-3154-40E5-9194-FAE1173C4AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2FD7026-3154-40E5-9194-FAE1173C4AAA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
