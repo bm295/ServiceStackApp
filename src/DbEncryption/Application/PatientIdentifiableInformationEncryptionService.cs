@@ -27,11 +27,14 @@ public sealed class PatientIdentifiableInformationEncryptionService : IPatientId
             throw new ArgumentException("Patient identifiable information must include a patient identifier.", nameof(patientInformation));
         }
 
+        ValidateRequired(patientInformation.FirstName, PatientInformationField.FirstName);
+        ValidateRequired(patientInformation.LastName, PatientInformationField.LastName);
+
         return new EncryptedPatientIdentifiableInformation(
             patientInformation.PatientId,
-            ProtectRequired(patientInformation.FirstName, patientInformation.PatientId, PatientInformationField.FirstName),
-            ProtectRequired(patientInformation.LastName, patientInformation.PatientId, PatientInformationField.LastName),
-            ProtectRequired(patientInformation.DateOfBirth.ToString(DateOnlyFormat), patientInformation.PatientId, PatientInformationField.DateOfBirth),
+            Protect(patientInformation.FirstName, patientInformation.PatientId, PatientInformationField.FirstName),
+            Protect(patientInformation.LastName, patientInformation.PatientId, PatientInformationField.LastName),
+            Protect(patientInformation.DateOfBirth.ToString(DateOnlyFormat), patientInformation.PatientId, PatientInformationField.DateOfBirth),
             ProtectOptional(patientInformation.MedicalRecordNumber, patientInformation.PatientId, PatientInformationField.MedicalRecordNumber),
             ProtectOptional(patientInformation.EmailAddress, patientInformation.PatientId, PatientInformationField.EmailAddress),
             ProtectOptional(patientInformation.PhoneNumber, patientInformation.PatientId, PatientInformationField.PhoneNumber),
@@ -58,14 +61,12 @@ public sealed class PatientIdentifiableInformationEncryptionService : IPatientId
             UnprotectOptional(encryptedPatientInformation.StreetAddress, encryptedPatientInformation.PatientId, PatientInformationField.StreetAddress));
     }
 
-    private EncryptedValue ProtectRequired(string value, string patientId, PatientInformationField field)
+    private static void ValidateRequired(string value, PatientInformationField field)
     {
         if (string.IsNullOrWhiteSpace(value))
         {
             throw new ArgumentException($"Patient {field} is required.", nameof(value));
         }
-
-        return Protect(value, patientId, field);
     }
 
     private EncryptedValue? ProtectOptional(string? value, string patientId, PatientInformationField field)
@@ -110,7 +111,7 @@ public sealed class PatientIdentifiableInformationEncryptionService : IPatientId
 
     private static string BuildPurpose(string patientId, PatientInformationField field)
     {
-        return $"{DataProtectionDbEncryptionService.DefaultPurpose}.PatientIdentifiableInformation.{patientId}.{field}";
+        return $"{DbEncryptionPurposes.DatabaseValue}.PatientIdentifiableInformation.{patientId}.{field}";
     }
 
     private enum PatientInformationField

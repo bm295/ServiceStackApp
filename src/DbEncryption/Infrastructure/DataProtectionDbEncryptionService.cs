@@ -7,7 +7,7 @@ namespace DbEncryption;
 /// </summary>
 public sealed class DataProtectionDbEncryptionService : IDbEncryptionService
 {
-    public const string DefaultPurpose = "ServiceStackApp.DbEncryption.DatabaseValue";
+    public const string DefaultPurpose = DbEncryptionPurposes.DatabaseValue;
 
     private readonly IDataProtectionProvider dataProtectionProvider;
     private readonly string defaultPurpose;
