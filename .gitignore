@@ -2,3 +2,7 @@
 packages
 obj
 bin
+.keys/
+*.db
+*.db-shm
+*.db-wal

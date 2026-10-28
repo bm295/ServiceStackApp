@@ -1,6 +1,8 @@
 # Wolverine playground
 
-This .NET 10 ASP.NET Core sample lets you try [Wolverine](https://wolverinefx.net/introduction/getting-started) without a broker or database.
+This .NET 10 ASP.NET Core sample lets you try [Wolverine](https://wolverinefx.net/introduction/getting-started) without a broker. Todos use memory; visit summaries use SQLite.
+
+See [Visit Summaries](Features/VisitSummaries/README.md) for the pre-visit draft workflow, encrypted persistence, doctor approval API, and failure demos.
 
 `POST /todos` calls `IMessageBus.InvokeAsync` to run the `CreateTodo` handler inline. The handler stores the todo and returns a `TodoCreated` event. Wolverine sends that cascading event to the local `todo-events` queue, where a second handler adds an activity entry.
 
