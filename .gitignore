@@ -6,3 +6,11 @@ bin
 *.db
 *.db-shm
 *.db-wal
+
+# Local game assets and generated mod files
+/tools/switch-mod-builder/*.bgyml
+/tools/switch-mod-builder/*.bphhb
+/tools/switch-mod-builder/*.bfres.zs
+/tools/switch-mod-builder/*.sarc.zs
+/tools/switch-mod-builder/extracted/
+/tools/switch-mod-builder/mod-output/
